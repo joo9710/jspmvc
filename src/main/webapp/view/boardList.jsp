@@ -28,8 +28,6 @@
     </tr>
     <!-- jstl if 태그를 써서 글번호가 작수인 글의 목록 만 보여주시오. -->
     <c:forEach items="${boardRowList}" var="row">
-    <c:if test="${row.id % 2==0}">
-
     <tr>
         <td>${row.id}</td>
         <td>${row.author}</td>
@@ -39,12 +37,13 @@
         <td>${row.writeTime}</td>
         <td>${row.readCount}</td>
         <td>${row.commentCount}</td>
-
     </tr>
-    </c:if>
     </c:forEach>
-
+    <tr>
+        <td colspan="7"><a href="#">[글 추가하기]</a></td>
+    </tr>
 </table>
+
 
 
 
