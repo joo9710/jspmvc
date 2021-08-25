@@ -41,6 +41,10 @@ public class BoardFrontController extends HttpServlet {
             viewPage = "view/boardList.jsp";
         } //어떻게 처리해줄지, 역할과 책임이 분리되는 장식
 
+        //글 추가하기
+        if(cmdURI.equals("/boardInsert.bbs")){
+            viewPage = "view/boardInsert.jsp";
+        }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
         dispatcher.forward(request, response);

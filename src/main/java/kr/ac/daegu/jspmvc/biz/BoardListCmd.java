@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/*
- * 글 목록 조회 요청이 들어왔을 때 DB에서 데이터를 가져옴
+/** 글 목록 조회 요청이 들어왔을 때 DB에서 데이터를 가져옴
  * view로 보낼 데이터 셋의 정의.
  * */
 public class BoardListCmd implements BoardCmd {
