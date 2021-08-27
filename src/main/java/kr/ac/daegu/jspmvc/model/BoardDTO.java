@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 // db에서 Board테이블의 컬럼과 row를 정의.
+// DataTransferObject : db에서 가져오는 테이블 row 데이터의 묶음.
+// ValueObject        : db에서 가져오는 테이블 row 데이터의 묶음. setter가 없다.
 public class BoardDTO {
-    private int id;                      // 글 id
+    private int id;                      // 글 id(글번호)
     private String author;               // 작성자 이름
     private String subject;              // 글 제목
     private String content;              // 글 컨텐츠
@@ -14,6 +16,15 @@ public class BoardDTO {
     private Time writeTime;              // 작성 시간
     private int readCount;               // 조회수
     private int commentCount;            // 댓글 갯수
+    private String password;             // 수정 삭제를 위한 패스워드
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public int getId() {
         return id;

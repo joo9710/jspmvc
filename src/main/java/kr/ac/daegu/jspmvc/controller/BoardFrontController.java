@@ -1,7 +1,6 @@
 package kr.ac.daegu.jspmvc.controller;
 
-import kr.ac.daegu.jspmvc.biz.BoardCmd;
-import kr.ac.daegu.jspmvc.biz.BoardListCmd;
+import kr.ac.daegu.jspmvc.biz.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,9 +16,9 @@ public class BoardFrontController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
-    } //get요청으로들어오면
+    }
 
-    @Override//post로 바로 보냄
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -39,11 +38,59 @@ public class BoardFrontController extends HttpServlet {
             cmd = new BoardListCmd();
             cmd.execute(request, response);
             viewPage = "view/boardList.jsp";
-        } //어떻게 처리해줄지, 역할과 책임이 분리되는 장식
-
-        //글 추가하기
+        }
+        // 글 추가하기
         if(cmdURI.equals("/boardInsert.bbs")){
-            viewPage = "view/boardInsert.jsp";
+            // enduser가 작성한 글을 db에 insert 시키는
+            // bizness logic을 작성
+            cmd = new BoardInsertCmd();
+            cmd.execute(request, response);
+            viewPage = "boardList.bbs";
+        }
+        // 글 읽기
+        if(cmdURI.equals("/boardRead.bbs")){
+            cmd = new BoardReadCmd();
+            cmd.execute(request, response);
+            viewPage = "view/boardRead.jsp";
+        }
+        /*
+         * 수정하기 관련
+         * */
+        // 글의 패스워드 체크
+        if(cmdURI.equals("/boardPwdCheckToUpdate.bbs")){
+            cmd = new BoardPwdCheckCmd();
+            boolean isPasswordCorrect = cmd.execute(request, response);
+            if(isPasswordCorrect){
+                viewPage = "view/boardReadToUpdate.jsp";
+            } else {
+                viewPage = "view/boardPwdCheckFalse.jsp";
+            }
+        }
+        // 글 수정 처리
+        if(cmdURI.equals("/boardUpdate.bbs")){
+            // 글 수정처리 bizlogic
+            cmd = new BoardUpdateCmd();
+            cmd.execute(request, response);
+            // 바로 글 목록 화면으로
+            viewPage = "boardList.bbs";
+        }
+
+        /*
+         * 삭제하기 관련
+         * */
+        // 글의 패스워드 체크
+        if(cmdURI.equals("/boardPwdCheckToDelete.bbs")){
+            cmd = new BoardPwdCheckCmd();
+            boolean isPasswordCorrect = cmd.execute(request, response);
+            if(isPasswordCorrect){
+                // 삭제 처리 하고
+                cmd = new BoardDeleteCmd();
+                cmd.execute(request, response);
+                // boardList.bbs호출
+                viewPage = "boardList.bbs";
+            } else {
+                viewPage = "view/boardPwdCheckFalse.jsp";
+            }
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
